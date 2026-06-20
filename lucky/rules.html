@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Tournament Rules | Surat Goes Bowling Championship | FunsPark Surat</title>
+
+  <!-- SEO Meta -->
+  <meta name="description" content="Official Tournament Rules for Surat Goes Bowling Championship. Team of 4, ₹1000 entry, unlimited re-entries, only highest score counts. Grand Finale 30th June. FunsPark Surat.">
+  <meta name="keywords" content="FunsPark Surat, Bowling Championship Rules, Surat Bowling Tournament Rules, Bowling Competition Rules">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#7B2DFF">
+  <link rel="canonical" href="https://funsparksurat.in/bowling-championship/rules">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Tournament Rules | Surat Goes Bowling Championship">
+  <meta property="og:description" content="Official rules for Surat's First Ever Team Bowling Tournament. ₹25,000 Cash Prize.">
+  <meta property="og:image" content="funspark_bowling.jpg">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="funspark_logo.jpg">
+  <link rel="apple-touch-icon" href="funspark_logo.jpg">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&family=Black+Ops+One&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="rules-style.css">
+</head>
+<body>
+
+  <!-- ═══ BACKGROUND ═══ -->
+  <div id="bg-wrap" aria-hidden="true">
+    <div id="bg-main"></div>
+    <div id="bg-overlay"></div>
+    <div id="bg-overlay-2"></div>
+  </div>
+  <div id="scanlines" aria-hidden="true"></div>
+  <canvas id="particles-canvas" aria-hidden="true"></canvas>
+
+  <!-- ═══ APP ═══ -->
+  <div id="app">
+
+    <!-- NAV -->
+    <nav id="top-nav" aria-label="Page navigation">
+      <div class="nav-logo">
+        <img src="funspark_logo.jpg" alt="FunsPark Logo" width="44" height="44">
+        <span class="nav-logo-text">Funs<span>Park</span> Surat</span>
+      </div>
+      <a href="index.html" class="back-btn" aria-label="Back to leaderboard">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+        Back to Leaderboard
+      </a>
+    </nav>
+
+    <main>
+      <div class="container">
+
+        <!-- HERO -->
+        <section id="hero" aria-label="Championship hero">
+          <div class="hero-badge">🎳 Official Event Rules</div>
+          <p class="hero-eyebrow">Surat's First Ever Team Tournament</p>
+          <h1 class="hero-title">
+            <span class="word-bowling">Bowling</span>
+            <span class="word-championship">Championship</span>
+          </h1>
+          <p class="hero-tagline">One City · One League · One Champion Team</p>
+
+          <div class="prize-strip">
+            <div class="prize-chip gold">🏆 ₹25,000 Cash Prize</div>
+            <div class="prize-chip pink">📸 Surat City Hoarding</div>
+          </div>
+        </section>
+
+        <!-- RULES DIVIDER -->
+        <div class="section-divider" aria-hidden="true">
+          <span class="divider-label">⚡ The Rules ⚡</span>
+        </div>
+
+        <!-- RULES GRID -->
+        <section id="rules-section" aria-labelledby="rules-h2">
+          <h2 id="rules-h2" class="sr-only">Tournament Rules</h2>
+          <div class="rules-grid" role="list">
+
+            <div class="rule-card" role="listitem">
+              <div class="rule-number">RULE 01</div>
+              <div class="rule-icon-wrap purple">👥</div>
+              <div class="rule-title">Team Size</div>
+              <p class="rule-desc">Each team must consist of exactly <strong>4 Players</strong>. All members must be present during play.</p>
+            </div>
+
+            <div class="rule-card" role="listitem">
+              <div class="rule-number">RULE 02</div>
+              <div class="rule-icon-wrap yellow">💰</div>
+              <div class="rule-title">Entry Fee</div>
+              <p class="rule-desc">Entry fee is <strong>₹1,000 per team</strong>. Payment must be completed before your session begins.</p>
+            </div>
+
+            <div class="rule-card" role="listitem">
+              <div class="rule-number">RULE 03</div>
+              <div class="rule-icon-wrap pink">♾️</div>
+              <div class="rule-title">Unlimited Re-Entries</div>
+              <p class="rule-desc">Teams may re-enter as many times as they wish. Each re-entry costs <strong>₹1,000</strong>. Aim higher!</p>
+            </div>
+
+            <div class="rule-card" role="listitem">
+              <div class="rule-number">RULE 04</div>
+              <div class="rule-icon-wrap cyan">🎯</div>
+              <div class="rule-title">Highest Score Counts</div>
+              <p class="rule-desc">Only your <strong>best (highest) score</strong> across all attempts is counted on the leaderboard.</p>
+            </div>
+
+            <div class="rule-card" role="listitem">
+              <div class="rule-number">RULE 05</div>
+              <div class="rule-icon-wrap purple">⏱️</div>
+              <div class="rule-title">Tie-Break Rule</div>
+              <p class="rule-desc">In case of equal scores, the team with the <strong>earliest timestamp</strong> wins the higher rank.</p>
+            </div>
+
+            <div class="rule-card" role="listitem">
+              <div class="rule-number">RULE 06</div>
+              <div class="rule-icon-wrap yellow">⚖️</div>
+              <div class="rule-title">Final Decision</div>
+              <p class="rule-desc">All decisions made by <strong>FunsPark management</strong> are final and binding. T&amp;C Apply.</p>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- DATES DIVIDER -->
+        <div class="section-divider" aria-hidden="true">
+          <span class="divider-label">📅 Important Dates</span>
+        </div>
+
+        <!-- DATES -->
+        <section id="dates-section" aria-label="Tournament dates">
+          <div class="dates-card">
+            <div class="date-item">
+              <div class="date-label">Tournament Begins</div>
+              <div class="date-value">16th June</div>
+              <div class="date-sub">Registration Open</div>
+            </div>
+            <div class="date-divider"></div>
+            <div class="date-item">
+              <div class="date-label">Tournament Ends</div>
+              <div class="date-value">30th June</div>
+              <div class="date-sub">Last Chance to Enter</div>
+            </div>
+            <div class="date-divider"></div>
+            <div class="date-item">
+              <div class="finale-badge">🔥 GRAND FINALE</div>
+              <div class="date-value">30th June</div>
+              <div class="date-sub">Champions Crowned!</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- PRIZES DIVIDER -->
+        <div class="section-divider" aria-hidden="true">
+          <span class="divider-label">🏆 Win Big. Get Famous.</span>
+        </div>
+
+        <!-- PRIZES -->
+        <section id="prizes-section" aria-label="Prize information">
+          <div class="prizes-card">
+            <p class="prizes-eyebrow">Champion Rewards</p>
+            <div class="prizes-headline">₹25,000</div>
+            <p style="color:rgba(255,255,255,0.6);font-family:'Rajdhani',sans-serif;font-size:1.1rem;font-weight:600;">Cash Prize for the Champion Team</p>
+            <div class="prizes-list">
+              <div class="prize-item"><span>📸</span> Your Face &amp; Name on a Surat City Hoarding</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- CTA DIVIDER -->
+        <div class="section-divider" aria-hidden="true">
+          <span class="divider-label">🎳 Ready to Bowl?</span>
+        </div>
+
+        <!-- CTA -->
+        <section id="cta-section" aria-label="Call to action">
+          <div class="cta-box">
+            <div class="cta-title">Register Your Team Now</div>
+            <p class="cta-sub">Visit FunsPark Surat — Citylight, Surat, Gujarat</p>
+            <a
+              href="https://wa.me/919999999999?text=I%20wanted%20to%20register"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="register-btn"
+              aria-label="Contact FunsPark on WhatsApp to register"
+            >
+              🎳 Register Now
+            </a>
+            <p class="entry-note">₹1000 per team · Team of 4 · Unlimited Re-entries · *T&amp;C Apply</p>
+          </div>
+        </section>
+
+      </div><!-- /.container -->
+    </main>
+
+    <!-- FOOTER -->
+    <footer id="page-footer">
+      <div class="footer-logo-row">
+        <img src="funspark_logo.jpg" alt="FunsPark Logo" width="40" height="40">
+        <span class="footer-brand">FunsPark Surat</span>
+      </div>
+      <nav class="footer-links-row" aria-label="Footer navigation">
+        <a href="index.html"  class="footer-link">🏆 Leaderboard</a>
+        <a href="https://www.instagram.com/funspark_surat" target="_blank" rel="noopener noreferrer" class="footer-link">📸 Instagram</a>
+      </nav>
+      <p class="footer-copy">
+        &copy; <span id="copy-year"></span> <span>FunsPark Surat</span>. All Rights Reserved.
+      </p>
+    </footer>
+
+  </div><!-- /#app -->
+
+  <!-- TICKER -->
+  <aside id="live-ticker" aria-label="Live event information ticker">
+    <div class="ticker-track">
+      <marquee class="ticker-inner" behavior="scroll" direction="left" scrollamount="6">
+        Only your highest score counts!
+        <span class="ticker-sep">&bull;</span>
+        Grand Finale: 30th June
+        <span class="ticker-sep">&bull;</span>
+        <span class="ticker-yell">Location: FunsPark, Citylight, Surat</span>
+        <span class="ticker-sep">&bull;</span>
+        Unlimited Re-entries Accepted!
+        <span class="ticker-sep">&bull;</span>
+        ₹25,000 Cash Prize + Surat City Hoarding!
+        <span class="ticker-sep">&bull;</span>
+        Only your highest score counts!
+        <span class="ticker-sep">&bull;</span>
+        Grand Finale: 30th June
+        <span class="ticker-sep">&bull;</span>
+        <span class="ticker-yell">Location: FunsPark, Citylight, Surat</span>
+        <span class="ticker-sep">&bull;</span>
+        Unlimited Re-entries Accepted!
+        <span class="ticker-sep">&bull;</span>
+        ₹25,000 Cash Prize + Surat City Hoarding!
+        <span class="ticker-sep">&bull;</span>
+      </marquee>
+    </div>
+  </aside>
+
+  <script src="rules-script.js"></script>
+
+</body>
+</html>
