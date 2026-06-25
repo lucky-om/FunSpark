@@ -1,0 +1,445 @@
+/* developed by lucky */
+/* ═══════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════ */
+:root {
+  --bg-dark:       #03010b;
+  --neon-purple:   #7C3AED;
+  --neon-pink:     #D946EF;
+  --neon-blue:     #0EA5E9;
+  --flyer-yellow:  #FACC15;
+  --panel-dark:    rgba(9, 4, 24, 0.95);
+}
+
+/* ═══════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; height: 100%; }
+
+body {
+  background-color: var(--bg-dark);
+  font-family: 'Rajdhani', sans-serif;
+  color: #fff;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+img    { display: block; max-width: 100%; }
+a      { color: inherit; text-decoration: none; }
+button { cursor: pointer; border: none; font-family: inherit; }
+
+
+/* ═══════════════════════════════════════════
+   ╔══════════════════════╗
+   ║  MOBILE LAYOUT       ║
+   ║  Single column card  ║
+   ╚══════════════════════╝
+   Default (all screens) — overridden on desktop
+═══════════════════════════════════════════ */
+.page-wrap {
+  position: relative; z-index: 1;
+  width: 100%;
+  max-width: min(460px, 96vw);
+  margin: 0 auto;
+  padding: clamp(16px,5vw,28px) clamp(12px,5vw,24px);
+  background: linear-gradient(180deg, #060212 0%, #010004 100%);
+  border: 2px solid rgba(124,58,237,0.3);
+  border-radius: clamp(10px,3vw,16px);
+  box-shadow: 0 24px 60px rgba(0,0,0,0.95), 0 0 0 1px rgba(124,58,237,0.08);
+  /* Stack panels vertically on mobile */
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  /* Center on screen */
+  position: relative;
+}
+
+/* Body acts as centering wrapper on mobile */
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(12px,4vw,24px) clamp(8px,3vw,16px);
+}
+
+/* ── PANEL LEFT (mobile: normal flow) ── */
+.panel-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+/* ── PANEL RIGHT (mobile: normal flow) ── */
+.panel-right {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ─── Brand Top Block ─── */
+.brand-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: clamp(8px,2.5vw,14px);
+}
+
+.brand-logo-img {
+  width: clamp(160px, 50vw, 320px);
+  height: auto;
+  border-radius: 8px;
+  border: 2px solid rgba(124,58,237,0.55);
+  box-shadow: 0 0 20px rgba(124,58,237,0.45);
+  margin-bottom: 6px;
+}
+
+.presents-badge {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(0.58rem,2vw,0.72rem);
+  color: var(--flyer-yellow);
+  letter-spacing: clamp(2px,1.5vw,5px);
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+/* ─── Hero Text ─── */
+.hero-text-block {
+  width: 100%;
+  text-align: center;
+  margin-bottom: clamp(8px,2vw,12px);
+}
+
+.purple-header-line {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: clamp(0.72rem,3vw,1.1rem);
+  font-style: italic;
+  text-transform: uppercase;
+  color: #fff;
+  background: linear-gradient(90deg, transparent, #4C1D95 12%, #4C1D95 88%, transparent);
+  padding: clamp(2px,0.6vw,4px) 0;
+  width: 100%;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+
+.text-surat-massive {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: clamp(2.6rem,16vw,5rem);
+  text-transform: uppercase;
+  line-height: 0.88;
+  color: #fff;
+  letter-spacing: -2px;
+  text-shadow: 3px 3px 0 #000;
+}
+
+.text-team-bowling-yellow {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: clamp(1.25rem,8vw,2.2rem);
+  text-transform: uppercase;
+  color: var(--flyer-yellow);
+  letter-spacing: -0.5px;
+  line-height: 1;
+  margin-top: clamp(2px,0.8vw,4px);
+  text-shadow: 2px 2px 0 #000;
+}
+
+.challenge-skew-badge {
+  display: inline-block;
+  background: #5B21B6;
+  color: #fff;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: clamp(0.95rem,5vw,1.5rem);
+  text-transform: uppercase;
+  padding: clamp(3px,0.8vw,6px) clamp(14px,4vw,26px);
+  transform: skewX(-10deg);
+  margin: clamp(6px,2vw,10px) auto clamp(6px,2vw,10px);
+  letter-spacing: 1.5px;
+  box-shadow: 3px 3px 0 var(--flyer-yellow);
+}
+
+.lbl-tournament-subtext {
+  font-size: clamp(0.62rem,2.5vw,0.9rem);
+  font-weight: 700;
+  color: rgba(255,255,255,0.6);
+  text-transform: uppercase;
+  letter-spacing: clamp(1px,0.6vw,2px);
+  margin-bottom: clamp(10px,3vw,16px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  padding-bottom: clamp(6px,2vw,10px);
+  width: 100%;
+}
+
+/* ─── Slogan Ribbon ─── */
+.slogan-middle-ribbon {
+  font-family: 'Montserrat', sans-serif;
+  font-style: italic; font-weight: 900;
+  font-size: clamp(0.52rem,2.2vw,0.78rem);
+  color: #fff;
+  background: linear-gradient(90deg, #DB2777, #7C3AED);
+  padding: clamp(5px,1.5vw,8px) 8px;
+  text-transform: uppercase;
+  width: 100%;
+  letter-spacing: 0.4px;
+  margin-bottom: clamp(12px,3.5vw,18px);
+  border-radius: 4px;
+}
+
+/* ─── Winner Gets ─── */
+.winner-gets-wrap {
+  margin-bottom: clamp(10px,2.5vw,14px);
+  text-align: center;
+  width: 100%;
+}
+
+.winner-gets-plate {
+  background: var(--flyer-yellow);
+  color: #000;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: clamp(0.72rem,2.8vw,0.95rem);
+  text-transform: uppercase;
+  padding: clamp(2px,0.7vw,4px) clamp(12px,3.5vw,20px);
+  display: inline-block;
+  letter-spacing: 1.5px;
+  transform: skewX(-8deg);
+}
+
+/* ─── Rewards Grid ─── */
+.rewards-grid-row {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: clamp(5px,1.8vw,10px);
+  margin-bottom: clamp(12px,3vw,18px);
+  width: 100%;
+}
+
+.reward-node-card {
+  background: var(--panel-dark);
+  border-radius: clamp(8px,2vw,13px);
+  padding: clamp(8px,2.5vw,14px) clamp(3px,1.2vw,8px);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 2px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.5);
+  transition: transform 0.2s ease;
+}
+.reward-node-card:hover { transform: translateY(-2px); }
+.rewards-grid-row .reward-node-card:nth-child(1) { border: 2px solid #5356FF; }
+.rewards-grid-row .reward-node-card:nth-child(2) { border: 2px solid #EC4899; }
+.rewards-grid-row .reward-node-card:nth-child(3) { border: 2px solid #FACC15; }
+
+.icon-symbol {
+  font-size: clamp(1.1rem,4.5vw,1.5rem);
+  margin-bottom: 3px; line-height: 1;
+}
+
+.label-nano {
+  font-size: clamp(0.52rem,1.8vw,0.7rem);
+  color: rgba(255,255,255,0.6);
+  text-transform: uppercase; letter-spacing: 0.2px; line-height: 1.2;
+}
+
+.value-bold {
+  font-size: clamp(0.72rem,3.2vw,0.98rem);
+  font-weight: 800;
+  color: var(--flyer-yellow);
+  margin-top: 2px; line-height: 1.1;
+}
+
+.value-bold--white-sm {
+  color: #fff;
+  font-size: clamp(0.52rem,1.8vw,0.68rem);
+  font-weight: 600;
+  margin-bottom: 1px;
+}
+
+/* ─── Dates Row ─── */
+.split-dates-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(8px,2.5vw,14px);
+  border-bottom: 1px dashed rgba(255,255,255,0.12);
+  padding-bottom: clamp(10px,2.5vw,14px);
+  margin-bottom: clamp(10px,2.5vw,14px);
+  width: 100%;
+}
+
+.meta-flex-node {
+  display: flex; align-items: center;
+  gap: clamp(5px,1.5vw,10px); text-align: left;
+}
+
+.icon-frame {
+  font-size: clamp(1rem,4vw,1.4rem);
+  flex-shrink: 0; line-height: 1;
+}
+
+.txt-stack .lbl-top-title {
+  font-size: clamp(0.58rem,2vw,0.73rem);
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase; letter-spacing: 0.2px; line-height: 1.3;
+}
+
+.txt-stack .lbl-bot-val {
+  font-size: clamp(0.78rem,3.2vw,1rem);
+  font-weight: 800; text-transform: uppercase; line-height: 1.2;
+}
+
+.lbl-bot-val--pink { color: var(--neon-pink); }
+.lbl-bot-val--blue { color: var(--neon-blue); }
+
+/* ─── Price Row ─── */
+.split-price-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(8px,2.5vw,14px);
+  text-align: left;
+  margin-bottom: clamp(16px,4vw,24px);
+  width: 100%;
+}
+
+.price-nano-lbl {
+  font-size: clamp(0.58rem,2vw,0.73rem);
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase; line-height: 1.3;
+}
+
+.price-val-tag {
+  font-size: clamp(1rem,4.5vw,1.3rem);
+  font-weight: 800; color: var(--flyer-yellow); line-height: 1.2;
+}
+
+.price-val-tag--white {
+  color: #fff;
+  font-size: clamp(0.7rem,2.5vw,0.88rem);
+  font-weight: 600; line-height: 1.3;
+}
+
+/* ─── CTA Button ─── */
+.cta-yellow-action-strip {
+  background: var(--flyer-yellow);
+  border: none;
+  border-radius: clamp(6px,2vw,10px);
+  width: 100%;
+  padding: clamp(12px,3.5vw,17px);
+  cursor: pointer;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 2px;
+  box-shadow: 0 4px 24px rgba(250,204,21,0.35);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  margin-bottom: clamp(12px,3vw,18px);
+}
+
+.cta-yellow-action-strip:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 32px rgba(250,204,21,0.5);
+}
+.cta-yellow-action-strip:active { transform: scale(0.98); }
+
+.btn-head-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: clamp(0.95rem,4.5vw,1.25rem);
+  color: #000; text-transform: uppercase;
+  letter-spacing: 0.5px; line-height: 1.1;
+}
+
+.btn-phone-val {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(0.8rem,3.5vw,1.06rem);
+  font-weight: 900; color: #000;
+  margin-top: 2px; display: flex; align-items: center; gap: 4px;
+}
+
+/* ─── Footer ─── */
+.register-footer {
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: clamp(10px,2.5vw,14px);
+  display: flex; flex-direction: column;
+  align-items: center;
+  gap: clamp(6px,2vw,10px);
+  width: 100%;
+}
+
+.footer-nav-links {
+  display: flex;
+  gap: clamp(10px,3.5vw,18px);
+  flex-wrap: wrap; justify-content: center;
+}
+
+.footer-nav-links a {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: clamp(0.7rem,2.2vw,0.85rem);
+  font-weight: 700; color: rgba(255,255,255,0.4);
+  text-transform: uppercase; letter-spacing: 1px;
+  transition: color 0.2s;
+}
+.footer-nav-links a:hover { color: rgba(255,255,255,0.85); }
+
+.footer-copyright {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: clamp(0.62rem,2vw,0.78rem);
+  font-weight: 600; color: rgba(255,255,255,0.22);
+  text-align: center; line-height: 1.4;
+}
+.footer-copyright span { color: rgba(124,58,237,0.65); }
+
+/* ═══════════════════════════════════════════
+   REDUCED MOTION
+═══════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ═══════════════════════════════════════════
+   TINY PHONES  ≤ 320px
+═══════════════════════════════════════════ */
+@media (max-width: 320px) {
+  .page-wrap { padding: 12px 8px; border-radius: 8px; }
+  .split-dates-row,
+  .split-price-row { grid-template-columns: 1fr; gap: 8px; }
+  .slogan-middle-ribbon { font-size: 0.5rem; }
+}
+
+
+/* UNIFIED FOOTER */
+#page-footer { background: rgba(11,0,26,0.9); border-top: 1px solid rgba(123,45,255,0.25); padding: 28px 20px; text-align: center; backdrop-filter: blur(20px); }
+.footer-logo-row { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 16px; }
+.footer-logo-row img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid rgba(123,45,255,0.5); object-fit: cover; }
+.footer-brand { font-family: 'Orbitron', sans-serif; font-size: 0.8rem; font-weight: 700; letter-spacing: 2px; color: var(--white); }
+.footer-brand span { color: var(--flyer-yellow); }
+.footer-links-row { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; margin-bottom: 16px; }
+.footer-link { font-family: 'Rajdhani', sans-serif; font-size: 0.95rem; font-weight: 600; color: rgba(255,255,255,0.5); text-decoration: none; transition: color 0.3s; }
+.footer-link:hover { color: #fff; }
+.footer-copy { font-family: 'Rajdhani', sans-serif; font-size: 0.85rem; color: rgba(255,255,255,0.3); }
+.footer-copy span { color: #c084fc; }
+
+
+/* NEON IG BUTTON */
+.footer-ig-link { display: inline-flex; align-items: center; gap: 10px; background: rgba(225,48,108,0.1); border: 1px solid rgba(225,48,108,0.3); border-radius: 6px; padding: 10px 14px; font-family: 'Rajdhani', sans-serif; font-size: 1rem; font-weight: 700; color: #ff2d8d; text-decoration: none; transition: all 0.3s; }
+.footer-ig-link:hover { background: rgba(225,48,108,0.2); border-color: #e1306c; box-shadow: 0 0 15px rgba(225,48,108,0.6); color: #fff; }
+.ig-icon { width: 22px; height: 22px; fill: currentColor; flex-shrink: 0; }
+
+/* BACKGROUND ANIMATION FROM RULES */
+#bg-wrap { position: fixed; inset: 0; z-index: 0; overflow: hidden; }
+#bg-main { position: absolute; inset: 0; background-image: url('../assets/bg-bowling.png'); background-size: cover; background-position: center top; background-repeat: no-repeat; }
+#bg-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11,0,26,0.88) 0%, rgba(11,0,26,0.55) 30%, rgba(11,0,26,0.70) 70%, rgba(11,0,26,0.97) 100%); }
+#bg-overlay-2 { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 50% at 15% 10%, rgba(123,45,255,0.25) 0%, transparent 70%), radial-gradient(ellipse 60% 40% at 85% 90%, rgba(255,45,141,0.2) 0%, transparent 70%), radial-gradient(ellipse 50% 40% at 50% 50%, rgba(0,229,255,0.08) 0%, transparent 70%); animation: overlayShift 12s ease-in-out infinite alternate; }
+@keyframes overlayShift { 0% { opacity: 0.8; } 100% { opacity: 1; } }
+#scanlines { position: fixed; inset: 0; z-index: 1; pointer-events: none; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px); }
+#particles-canvas { position: fixed; inset: 0; z-index: 2; pointer-events: none; }

@@ -1,0 +1,85 @@
+/* developed by lucky */
+:root {
+  --bg-dark:       #03010b;
+  --purple-light:  #A78BFA;
+  --purple:        #7C3AED;
+  --pink-light:    #F472B6;
+  --pink:          #E11D48;
+  --white:         #FFFFFF;
+  --radius-sm:     8px;
+  --radius-md:     16px;
+  --transition:    0.3s;
+  --shadow-pink:   0 0 15px rgba(225,48,108,0.6);
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { height: 100%; -webkit-text-size-adjust: 100%; }
+body {
+  background-color: var(--bg-dark);
+  font-family: 'Rajdhani', sans-serif;
+  color: var(--white);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* BACKGROUND ANIMATION */
+#bg-wrap { position: fixed; inset: 0; z-index: 0; overflow: hidden; }
+#bg-main { position: absolute; inset: 0; background-image: url('tournament/assets/bg-bowling.png'); background-size: cover; background-position: center top; background-repeat: no-repeat; }
+#bg-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11,0,26,0.88) 0%, rgba(11,0,26,0.55) 30%, rgba(11,0,26,0.70) 70%, rgba(11,0,26,0.97) 100%); }
+#bg-overlay-2 { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 50% at 15% 10%, rgba(123,45,255,0.25) 0%, transparent 70%), radial-gradient(ellipse 60% 40% at 85% 90%, rgba(255,45,141,0.2) 0%, transparent 70%), radial-gradient(ellipse 50% 40% at 50% 50%, rgba(0,229,255,0.08) 0%, transparent 70%); animation: overlayShift 12s ease-in-out infinite alternate; }
+@keyframes overlayShift { 0% { opacity: 0.8; } 100% { opacity: 1; } }
+#scanlines { position: fixed; inset: 0; z-index: 1; pointer-events: none; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px); }
+#particles-canvas { position: fixed; inset: 0; z-index: 2; pointer-events: none; }
+
+#app { position: relative; z-index: 10; display: flex; flex-direction: column; min-height: 100vh; }
+
+/* NAV */
+#top-nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(11,0,26,0.85);
+  border-bottom: 1px solid rgba(123,45,255,0.3);
+  backdrop-filter: blur(20px);
+  padding: 12px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo { display: flex; align-items: center; gap: 12px; }
+.nav-logo img { width: 44px; height: 44px; border-radius: 50%; border: 2px solid rgba(123,45,255,0.6); box-shadow: 0 0 14px rgba(123,45,255,0.5); object-fit: cover; }
+.nav-logo-text { font-family: 'Orbitron', sans-serif; font-size: 0.75rem; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; color: var(--white); }
+.nav-logo-text span { color: #FACC15; }
+.nav-text-group { display: flex; flex-direction: column; }
+.nav-brand-line { font-family: 'Montserrat', sans-serif; font-size: 0.55rem; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 1.5px; margin-top: 1px; }
+
+.back-btn { display: inline-flex; align-items: center; gap: 8px; background: rgba(123,45,255,0.15); border: 1px solid rgba(123,45,255,0.4); border-radius: 30px; padding: 8px 18px; font-family: 'Rajdhani', sans-serif; font-size: 0.9rem; font-weight: 700; color: var(--purple-light); transition: all 0.3s; text-decoration: none; }
+.back-btn:hover { background: rgba(123,45,255,0.3); border-color: var(--purple-light); color: var(--white); box-shadow: 0 0 18px rgba(123,45,255,0.3); transform: translateX(-2px); }
+.back-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.5; }
+
+/* 404 CONTENT */
+.container { flex: 1; display: flex; align-items: center; justify-content: center; padding: 60px 20px; }
+#error-section { text-align: center; max-width: 600px; }
+.error-code { font-family: 'Orbitron', sans-serif; font-size: 8rem; font-weight: 900; color: transparent; -webkit-text-stroke: 2px var(--pink-light); text-shadow: 0 0 20px rgba(244,114,182,0.6); margin-bottom: 10px; line-height: 1; }
+.error-msg { font-family: 'Montserrat', sans-serif; font-size: 2.5rem; font-weight: 800; color: var(--white); margin-bottom: 20px; }
+.error-desc { font-size: 1.2rem; color: rgba(255,255,255,0.7); margin-bottom: 40px; }
+
+.action-buttons { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+.btn-primary, .btn-secondary { display: inline-flex; align-items: center; justify-content: center; padding: 14px 32px; border-radius: 30px; font-family: 'Montserrat', sans-serif; font-size: 1.1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s; }
+.btn-primary { background: linear-gradient(135deg, var(--purple), #a855f7); color: white; border: none; box-shadow: 0 8px 25px rgba(124,58,237,0.5); }
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(124,58,237,0.7); filter: brightness(1.1); }
+.btn-secondary { background: rgba(255,255,255,0.05); color: var(--white); border: 2px solid rgba(255,255,255,0.2); }
+.btn-secondary:hover { background: rgba(255,255,255,0.1); border-color: var(--white); transform: translateY(-3px); }
+
+/* UNIFIED FOOTER */
+#page-footer { background: rgba(11,0,26,0.9); border-top: 1px solid rgba(123,45,255,0.25); padding: 28px 20px; text-align: center; backdrop-filter: blur(20px); }
+.footer-logo-row { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 16px; }
+.footer-logo-row img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid rgba(123,45,255,0.5); object-fit: cover; }
+.footer-brand { font-family: 'Orbitron', sans-serif; font-size: 0.8rem; font-weight: 700; letter-spacing: 2px; color: var(--white); }
+.footer-brand span { color: #FACC15; }
+.footer-links-row { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; margin-bottom: 16px; }
+.footer-link { font-family: 'Rajdhani', sans-serif; font-size: 0.95rem; font-weight: 600; color: rgba(255,255,255,0.5); text-decoration: none; transition: color 0.3s; }
+.footer-link:hover { color: #fff; }
+.footer-copy { font-family: 'Rajdhani', sans-serif; font-size: 0.85rem; color: rgba(255,255,255,0.3); }
+.footer-copy span { color: #c084fc; }
+
+/* NEON IG BUTTON */
+.footer-ig-link { display: inline-flex; align-items: center; gap: 10px; background: rgba(225,48,108,0.1); border: 1px solid rgba(225,48,108,0.3); border-radius: 6px; padding: 10px 14px; font-family: 'Rajdhani', sans-serif; font-size: 1rem; font-weight: 700; color: #ff2d8d; text-decoration: none; transition: all 0.3s; }
+.footer-ig-link:hover { background: rgba(225,48,108,0.2); border-color: #e1306c; box-shadow: 0 0 15px rgba(225,48,108,0.6); color: #fff; }
+.ig-icon { width: 22px; height: 22px; fill: currentColor; flex-shrink: 0; }

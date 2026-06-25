@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us | FunsPark Surat</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="contact-style.css">
+</head>
+<body>
+
+  <!-- BACKGROUND -->
+  <div id="bg-wrap" aria-hidden="true"></div>
+  <div id="scanlines" aria-hidden="true"></div>
+  <canvas id="particles-canvas" aria-hidden="true"></canvas>
+
+  <div id="app">
+    <!-- NAV -->
+    <nav id="top-nav" aria-label="Page navigation">
+      <div class="nav-logo">
+        <img src="tournament/assets/funspark_logo.jpg" alt="FunSpark Logo" width="44" height="44">
+        <div class="nav-text-group">
+          <span class="nav-logo-text">Fun<span>Spark</span></span>
+          <span class="nav-brand-line">Unleash the fun</span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- MAIN -->
+    <main class="container">
+      <section id="contact-section">
+        <div class="glass-card">
+          <div class="card-header">
+            <div class="icon-ring">📞</div>
+            <h1>Contact Us</h1>
+            <p>Get in touch with the FunSpark team!</p>
+          </div>
+          
+          <div class="contact-links">
+            <a href="tel:+918140000693" class="contact-item">
+              <span class="c-icon">📱</span>
+              <div class="c-text">
+                <span class="c-label">Mobile</span>
+                <span class="c-val">+91 81400 00693</span>
+              </div>
+            </a>
+            
+            <a href="https://wa.me/918140000693?text=Hello%20FunSpark!" target="_blank" class="contact-item">
+              <span class="c-icon">💬</span>
+              <div class="c-text">
+                <span class="c-label">WhatsApp</span>
+                <span class="c-val">+91 81400 00693</span>
+              </div>
+            </a>
+
+            <a href="mailto:info@funsparksurat.in" class="contact-item">
+              <span class="c-icon">✉️</span>
+              <div class="c-text">
+                <span class="c-label">Email</span>
+                <span class="c-val">info@funsparksurat.in</span>
+              </div>
+            </a>
+
+            <a href="https://www.instagram.com/funspark_surat" target="_blank" rel="noopener noreferrer" class="contact-item">
+              <span class="c-icon">📸</span>
+              <div class="c-text">
+                <span class="c-label">Instagram</span>
+                <span class="c-val">@funspark_surat</span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer id="page-footer">
+      <div class="footer-logo-row">
+        <img src="tournament/assets/funspark_logo.jpg" alt="FunSpark Brand" width="40" height="40" loading="lazy">
+        <span class="footer-brand">Fun<span>Spark</span></span>
+      </div>
+      <nav class="footer-links-row" aria-label="Footer navigation">
+        <a href="contact.html" class="footer-link">📞 Contact Us</a>
+        <a href="tournament/register/" class="footer-link">📝 Register</a>
+        <a href="tournament/rules/" class="footer-link">📜 Rules</a>
+        <a href="tournament/leaderboard/" class="footer-link">🏆 Leaderboard</a>
+      </nav>
+      <div class="footer-copy">
+        &copy; <span id="copy-year"></span> FunsInfinity LLP. All Rights Reserved.
+      </div>
+    </footer>
+  </div>
+
+  <script src="contact-script.js"></script>
+</body>
+</html>
