@@ -8,7 +8,6 @@
      Path relative to tournament/leaderboard/
   ──────────────────────────────────────── */
   const BG_IMAGES = [
-    '../assets/bg-bowling.png',
     '../assets/funspark_bowling.jpg',
   ];
 
