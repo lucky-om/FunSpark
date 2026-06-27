@@ -3,6 +3,27 @@
 <html lang="en">
 
 <head>
+  <!-- Domain Lock and HTTPS Enforcement -->
+  <script>
+    (function() {
+      var hostname = window.location.hostname;
+      var protocol = window.location.protocol;
+      var allowed = ['funspark.co', 'funspark.luckyverse.tech'];
+      var isLocal = hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '::1' || hostname === '';
+      
+      if (!isLocal && allowed.indexOf(hostname) === -1) {
+        document.documentElement.style.display = 'none';
+        window.location.replace('https://funspark.co' + window.location.pathname + window.location.search + window.location.hash);
+        return;
+      }
+      
+      if (!isLocal && protocol === 'http:') {
+        document.documentElement.style.display = 'none';
+        window.location.replace('https://' + hostname + window.location.pathname + window.location.search + window.location.hash);
+      }
+    })();
+  </script>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 
