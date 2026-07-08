@@ -13,7 +13,7 @@ const BG_IMAGES = [
 /* ────────────────────────────────────────
    LIVE GOOGLE SHEET WEB APP API URL
 ──────────────────────────────────────── */
-const API_URL = "https://script.google.com/macros/s/AKfycbyOiHc0b0dDC8STVuE0CTtvPbzyxYzGly0-04y58IfSx02KaLkyRG8DAj-HS-UAl96n/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbwNr5DWVDRrG2vJoCvQ04YFPIXS8UWSTJfuo_4iyX4DKpLnswHeYr0TVMQeT3honzN_/exec";
 
 /* ────────────────────────────────────────
    DATA ENGINE (Live Connected)
@@ -21,7 +21,7 @@ const API_URL = "https://script.google.com/macros/s/AKfycbyOiHc0b0dDC8STVuE0CTtv
 async function fetchLiveLeaderboard() {
   const container = document.getElementById('lb-rows-wrap');
   
-  // Custom futuristic loader state showing dynamic sync
+  // Futuristic loader state showing dynamic sync
   container.innerHTML = `
     <div class="loading-state" style="text-align:center; padding: 30px; color: #7B2DFF; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1.3rem; letter-spacing: 2px; animation: pulse 1.5s infinite;">
       ⚡ FETCHING LIVE SCORE DATA...
