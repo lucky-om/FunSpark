@@ -13,12 +13,12 @@ const BG_IMAGES = [
 /* ────────────────────────────────────────
    LIVE GOOGLE SHEET WEB APP API URL
 ──────────────────────────────────────── */
-const API_URL = "https://script.google.com/macros/s/AKfycbwNr5DWVDRrG2vJoCvQ04YFPIXS8UWSTJfuo_4iyX4DKpLnswHeYr0TVMQeT3honzN_/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbzYuwp-rq5L4U3CoV5fsK1ZBWXjGXJ_K9kQxOW5CPoViFNGKcg424P8eeHLvWSXckD5/exec";
 
 /* ────────────────────────────────────────
-   DATA ENGINE (Live Connected - Proper Standard Fetch)
+   DATA ENGINE (JSONP CORS Bypass Architecture)
 ──────────────────────────────────────── */
-async function fetchLiveLeaderboard() {
+function fetchLiveLeaderboard() {
   const container = document.getElementById('lb-rows-wrap');
   
   container.innerHTML = `
@@ -27,51 +27,52 @@ async function fetchLiveLeaderboard() {
     </div>
   `;
 
-  try {
-    // FIX: Removed dynamic query params and extra headers to allow natural Google redirect flow
-    const response = await fetch(API_URL);
-    
-    if (!response.ok) throw new Error('Network response was not ok');
-    
-    const data = await response.json();
-    
+  // Create a unique global callback function name dynamically
+  const callbackName = "jsonpCallback_" + Math.round(100000 * Math.random());
+  
+  // Yeh function tab trigger hoga jab Google Sheet data wapas script payload me return karegi
+  window[callbackName] = function(data) {
+    // Execution ke baad temporary script element ko clean karna
+    const targetScript = document.getElementById(callbackName);
+    if (targetScript) targetScript.remove();
+    delete window[callbackName];
+
     if (Array.isArray(data)) {
-      // Raw Sheet data ko standardized format me map karna
-      const formattedEntries = data
-        .filter(row => {
-          let name = Array.isArray(row) ? row[0] : row.Team_Name;
-          let score = Array.isArray(row) ? row[1] : row.Total_Score;
-          return name && !isNaN(score) && name.toString().toLowerCase() !== "team name";
-        })
-        .map(row => ({
-          Team_Name: Array.isArray(row) ? row[0] : row.Team_Name,
-          Total_Score: parseInt(Array.isArray(row) ? row[1] : row.Total_Score, 10) || 0,
-          Timestamp: Array.isArray(row) ? (row[2] || new Date().toISOString()) : (row.Timestamp || new Date().toISOString())
-        }));
+      const formattedEntries = data.map(row => ({
+        Team_Name: row.Team_Name,
+        Total_Score: parseInt(row.Total_Score, 10) || 0,
+        Timestamp: row.Timestamp || new Date().toISOString()
+      }));
 
-      // Tournament Engine rules apply karna (Personal Best, Tie Breaks)
       fullRankings = buildLeaderboard(formattedEntries);
-
-      // Global ranking sequence map setup karna
       globalRankMap = new Map(fullRankings.map((t, i) => [t.name, i + 1]));
-
-      // Interface state set karke render karna
       currentFiltered = fullRankings;
       currentPage = 1;
       renderCurrentPage();
     } else {
-      throw new Error('Data format invalid');
+      showErrorState();
     }
-  } catch (error) {
-    console.error("Leaderboard fetch error:", error);
-    container.innerHTML = `
-      <div class="error-state" style="text-align:center; padding: 30px; color: #ff4757; font-family: 'Rajdhani', sans-serif; font-weight: 700;">
-        ❌ CONNECTIVITY ERROR. RE-TRYING AUTOMATICALLY...
-      </div>
-    `;
-    // Fallback retry system
-    setTimeout(fetchLiveLeaderboard, 8000);
-  }
+  };
+
+  // Safe Injecting JSONP script to completely eliminate CORS pre-flight browser blockage
+  const script = document.createElement('script');
+  script.src = `${API_URL}?callback=${callbackName}&_cb=${new Date().getTime()}`;
+  script.id = callbackName;
+  script.onerror = function() {
+    showErrorState();
+  };
+  
+  document.body.appendChild(script);
+}
+
+function showErrorState() {
+  const container = document.getElementById('lb-rows-wrap');
+  container.innerHTML = `
+    <div class="error-state" style="text-align:center; padding: 30px; color: #ff4757; font-family: 'Rajdhani', sans-serif; font-weight: 700;">
+      ❌ CONNECTIVITY ERROR. RE-TRYING AUTOMATICALLY...
+    </div>
+  `;
+  setTimeout(fetchLiveLeaderboard, 8000);
 }
 
 function buildLeaderboard(entries) {
@@ -89,8 +90,10 @@ function buildLeaderboard(entries) {
     } else {
       const existing = map.get(name);
       if (score > existing.score) {
+        // New personal best — update score AND timestamp
         map.set(name, { name, score, ts });
       } else if (score === existing.score && ts < existing.ts) {
+        // Same score achieved earlier — keep earliest timestamp for tie-break
         map.set(name, { name, score, ts });
       }
     }
@@ -128,7 +131,7 @@ function renderRows(data, globalRankMap) {
     row.setAttribute('role', 'listitem');
     row.style.animationDelay = `${idx * 0.055}s`;
 
-    // Rank cell
+    // Rank cell with gold/silver/bronze icons
     const rankEl = document.createElement('div');
     rankEl.className = 'lb-rank';
     rankEl.setAttribute('aria-label', `Rank ${globalRank}`);
@@ -143,7 +146,7 @@ function renderRows(data, globalRankMap) {
     teamEl.textContent = team.name; 
     teamEl.title = team.name;
 
-    // Score cell
+    // Score cell local formatting
     const scoreEl = document.createElement('div');
     scoreEl.className = 'lb-score';
     scoreEl.setAttribute('aria-label', `Score: ${team.score}`);
@@ -186,177 +189,4 @@ function updatePaginationUI() {
   wrap.innerHTML = html;
 }
 
-window.goToPage = function(page) {
-  const totalPages = Math.ceil(currentFiltered.length / itemsPerPage);
-  if (page < 1 || page > totalPages) return;
-  currentPage = page;
-  renderCurrentPage();
-};
-
-function renderCurrentPage() {
-  const start = (currentPage - 1) * itemsPerPage;
-  const end = start + itemsPerPage;
-  const pageData = currentFiltered.slice(start, end);
-  renderRows(pageData, globalRankMap);
-  updatePaginationUI();
-}
-
-function filterAndRender(query) {
-  if (!query) {
-    currentFiltered = fullRankings;
-  } else {
-    const lower = query.toLowerCase();
-    currentFiltered = fullRankings.filter(t => t.name.toLowerCase().includes(lower));
-  }
-  currentPage = 1;
-  renderCurrentPage();
-}
-
-function onSearchInput() {
-  clearTimeout(debounceTimer);
-  debounceTimer = setTimeout(() => {
-    const raw = document.getElementById('team-search').value
-      .replace(/[<>"'&/\\]/g, '')
-      .trim()
-      .slice(0, 60);
-    filterAndRender(raw);
-  }, 120);
-}
-
-/* ────────────────────────────────────────
-   PARTICLE SYSTEM (GPU-accelerated)
-──────────────────────────────────────── */
-function initParticles() {
-  const canvas = document.getElementById('particles-canvas');
-  if (!canvas) return;
-  const ctx    = canvas.getContext('2d');
-
-  let W, H, particles;
-  const PARTICLE_COUNT = 55;
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  if (reduced) return;
-
-  function resize() {
-    W = canvas.width  = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-  }
-
-  function makeParticle() {
-    return {
-      x:    Math.random() * W,
-      y:    Math.random() * H,
-      r:    Math.random() * 1.8 + 0.4,
-      vx:   (Math.random() - 0.5) * 0.25,
-      vy:   -(Math.random() * 0.3 + 0.1),
-      alpha: Math.random() * 0.4 + 0.1,
-      hue:  Math.random() < 0.6 ? 270 : (Math.random() < 0.5 ? 320 : 45),
-    };
-  }
-
-  function init() {
-    resize();
-    particles = Array.from({ length: PARTICLE_COUNT }, makeParticle);
-  }
-
-  function draw() {
-    ctx.clearRect(0, 0, W, H);
-
-    for (const p of particles) {
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = `hsla(${p.hue}, 100%, 70%, ${p.alpha})`;
-      ctx.fill();
-
-      p.x += p.vx;
-      p.y += p.vy;
-
-      if (p.y < -5)  p.y = H + 5;
-      if (p.x < -5)  p.x = W + 5;
-      if (p.x > W+5) p.x = -5;
-    }
-
-    requestAnimationFrame(draw);
-  }
-
-  init();
-  draw();
-  window.addEventListener('resize', resize, { passive: true });
-}
-
-/* ────────────────────────────────────────
-   BACKGROUND SLIDESHOW
-──────────────────────────────────────── */
-function initSlideshow() {
-  const container = document.getElementById('bg-slideshow');
-  if (!container) return;
-
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  BG_IMAGES.forEach((src, i) => {
-    const slide = document.createElement('div');
-    slide.className = 'bg-slide' + (i === 0 ? ' active' : '');
-    slide.style.backgroundImage = `url('${src}')`;
-    container.appendChild(slide);
-  });
-
-  if (reduced) return;
-
-  const slides = container.querySelectorAll('.bg-slide');
-  if (slides.length < 2) return;
-
-  let current = 0;
-  const INTERVAL = 5500;
-
-  function next() {
-    slides[current].classList.remove('active');
-    current = (current + 1) % slides.length;
-    slides[current].classList.add('active');
-  }
-
-  setInterval(next, INTERVAL);
-}
-
-/* ────────────────────────────────────────
-   INIT MODULES
-──────────────────────────────────────── */
-document.addEventListener('DOMContentLoaded', () => {
-
-  const yearEl = document.getElementById('copy-year');
-  if (yearEl) yearEl.textContent = new Date().getFullYear();
-
-  // Load live data
-  fetchLiveLeaderboard();
-
-  const searchInput = document.getElementById('team-search');
-  if (searchInput) {
-    searchInput.addEventListener('input', onSearchInput, { passive: true });
-
-    searchInput.addEventListener('paste', (e) => {
-      e.preventDefault();
-      const pasted = (e.clipboardData || window.clipboardData)
-        .getData('text')
-        .replace(/[<>"'&/\\]/g, '')
-        .slice(0, 60);
-      const start = searchInput.selectionStart;
-      const end   = searchInput.selectionEnd;
-      const current = searchInput.value;
-      searchInput.value = (current.slice(0, start) + pasted + current.slice(end)).slice(0, 60);
-      onSearchInput();
-    });
-  }
-
-  initSlideshow();
-  initParticles();
-
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-      const target = document.querySelector(this.getAttribute('href'));
-      if (target) {
-        e.preventDefault();
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    });
-  });
-
-});
+window.goToPage = function
