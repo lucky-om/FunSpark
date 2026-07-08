@@ -16,7 +16,7 @@ const BG_IMAGES = [
 const API_URL = "https://script.google.com/macros/s/AKfycbwNr5DWVDRrG2vJoCvQ04YFPIXS8UWSTJfuo_4iyX4DKpLnswHeYr0TVMQeT3honzN_/exec";
 
 /* ────────────────────────────────────────
-   DATA ENGINE (Live Connected with Redirect Fix)
+   DATA ENGINE (Live Connected with Cache Busting)
 ──────────────────────────────────────── */
 async function fetchLiveLeaderboard() {
   const container = document.getElementById('lb-rows-wrap');
@@ -29,8 +29,11 @@ async function fetchLiveLeaderboard() {
   `;
 
   try {
-    // FIX: Explicitly configured CORS mechanics to bypass Google Macro CORS policy blockage
-    const response = await fetch(API_URL, {
+    // FIXED: Dynamic timestamp generator added to explicitly bypass Cloudflare/Browser strict CORS cache locks
+    const cacheBuster = "?_cb=" + new Date().getTime();
+    const finalUrl = API_URL + cacheBuster;
+
+    const response = await fetch(finalUrl, {
       method: 'GET',
       mode: 'cors',
       redirect: 'follow'
@@ -75,7 +78,7 @@ async function fetchLiveLeaderboard() {
         ❌ CONNECTIVITY ERROR. RE-TRYING AUTOMATICALLY...
       </div>
     `;
-    // Fallback retry system har 8 seconds me
+    // Fallback retry system har 8 seconds me automatically pool karega
     setTimeout(fetchLiveLeaderboard, 8000);
   }
 }
@@ -136,7 +139,7 @@ function renderRows(data, globalRankMap) {
     row.setAttribute('role', 'listitem');
     row.style.animationDelay = `${idx * 0.055}s`;
 
-    // Rank cell
+    // Rank cell with standard native emoticons or strict strings
     const rankEl = document.createElement('div');
     rankEl.className = 'lb-rank';
     rankEl.setAttribute('aria-label', `Rank ${globalRank}`);
@@ -151,7 +154,7 @@ function renderRows(data, globalRankMap) {
     teamEl.textContent = team.name; 
     teamEl.title = team.name;
 
-    // Score cell
+    // Score cell formatted locally
     const scoreEl = document.createElement('div');
     scoreEl.className = 'lb-score';
     scoreEl.setAttribute('aria-label', `Score: ${team.score}`);
@@ -326,7 +329,7 @@ function initSlideshow() {
 }
 
 /* ────────────────────────────────────────
-   INIT
+   INIT MODULES
 ──────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -334,10 +337,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const yearEl = document.getElementById('copy-year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  // Load live data from Google Sheet Web App
+  // Load live data stream from dynamic endpoints
   fetchLiveLeaderboard();
 
-  // Search listener
+  // Search input actions setup
   const searchInput = document.getElementById('team-search');
   if (searchInput) {
     searchInput.addEventListener('input', onSearchInput, { passive: true });
@@ -360,7 +363,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initSlideshow();
   initParticles();
 
-  // Smooth anchor scroll
+  // Smooth anchor scroll elements interface logic
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
       const target = document.querySelector(this.getAttribute('href'));
