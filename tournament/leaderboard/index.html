@@ -1,9 +1,7 @@
-<!-- developed by lucky -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <!-- Domain Lock and HTTPS Enforcement -->
   <script>
     (function () {
       var hostname = window.location.hostname;
@@ -27,13 +25,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 
-  <!-- ═══ SECURITY ═══ -->
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
-  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
   <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
   <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()">
 
-  <!-- ═══ PRIMARY SEO ═══ -->
   <title>Surat Goes Bowling Championship | Live Leaderboard | FunsPark Surat</title>
   <meta name="description"
     content="Track live rankings for Surat's First Ever Team Bowling Tournament. Unlimited re-entries allowed. Only your highest score counts. ₹25,000 Cash Prize. Hosted by FunsPark Surat, Citylight.">
@@ -44,7 +39,6 @@
   <meta name="theme-color" content="#7B2DFF">
   <link rel="canonical" href="https://funspark.co/tournament/leaderboard/">
 
-  <!-- ═══ OPEN GRAPH ═══ -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://funspark.co/tournament/leaderboard/">
   <meta property="og:title" content="Surat Goes Bowling Championship | Official Live Leaderboard | FunsPark Surat">
@@ -57,7 +51,6 @@
   <meta property="og:locale" content="en_IN">
   <meta property="og:site_name" content="FunsPark Surat">
 
-  <!-- ═══ TWITTER CARD ═══ -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@funspark_surat">
   <meta name="twitter:title" content="Surat Goes Bowling Championship | Live Leaderboard">
@@ -65,18 +58,15 @@
     content="₹25,000 Cash Prize. Live Rankings. Unlimited Re-Entries. Grand Finale 12th July. FunsPark Surat.">
   <meta name="twitter:image" content="https://funspark.co/tournament/assets/bg-bowling.png">
 
-  <!-- ═══ FAVICON ═══ -->
   <link rel="icon" type="image/jpeg" href="../assets/funspark_logo.jpg">
   <link rel="apple-touch-icon" href="../assets/funspark_logo.jpg">
 
-  <!-- ═══ FONTS ═══ -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,800;0,900;1,900&family=Orbitron:wght@700;900&family=Rajdhani:wght@600;700;800&display=swap"
     rel="stylesheet">
 
-  <!-- ═══ STRUCTURED DATA ═══ -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -142,12 +132,8 @@
 
 <body>
 
-  <!-- ═══════════════════════════════════════════
-     BACKGROUND SYSTEM
-  ═══════════════════════════════════════════ -->
   <div id="bg-slideshow" aria-hidden="true">
-    <!-- Images injected by script.js via BG_IMAGES array -->
-  </div>
+    </div>
 
   <div id="bg-overlay-1" aria-hidden="true"></div>
   <div id="bg-overlay-2" aria-hidden="true"></div>
@@ -155,12 +141,8 @@
   <canvas id="particles-canvas" aria-hidden="true"></canvas>
   <div id="gradient-accent" aria-hidden="true"></div>
 
-  <!-- ═══════════════════════════════════════════
-     MAIN APP
-  ═══════════════════════════════════════════ -->
   <div id="app">
 
-    <!-- HEADER -->
     <header id="site-header">
       <div class="container">
         <div class="logo-wrap">
@@ -179,11 +161,9 @@
       </div>
     </header>
 
-    <!-- MAIN CONTENT -->
     <main id="main-content">
       <div class="container">
 
-        <!-- SEARCH -->
         <section id="search-section" aria-label="Search teams">
           <div class="search-wrap">
             <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
@@ -196,7 +176,6 @@
           </div>
         </section>
 
-        <!-- LEADERBOARD -->
         <section id="leaderboard-section" aria-labelledby="leaderboard-heading">
           <div class="section-label" id="leaderboard-heading">Live Rankings</div>
 
@@ -211,10 +190,8 @@
           </div>
         </section>
 
-      </div><!-- /.container -->
-    </main>
+      </div></main>
 
-    <!-- UNIFIED FOOTER -->
     <footer id="page-footer">
       <div class="footer-logo-row">
         <img src="../assets/funspark_logo.jpg" alt="FunSpark Brand" width="40" height="40" loading="lazy">
@@ -239,10 +216,7 @@
       </p>
     </footer>
 
-  </div><!-- /#app -->
-
-  <!-- LIVE TICKER (Fixed Bottom) -->
-  <aside id="live-ticker" aria-label="Live event information ticker">
+  </div><aside id="live-ticker" aria-label="Live event information ticker">
     <div class="ticker-track">
       <marquee class="ticker-inner" behavior="scroll" direction="left" scrollamount="6">
         Only your highest score counts!
@@ -271,7 +245,6 @@
     </div>
   </aside>
 
-  <!-- JAVASCRIPT ENGINE -->
   <script src="script.js" defer></script>
 
 </body>
