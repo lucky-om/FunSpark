@@ -16,12 +16,11 @@ const BG_IMAGES = [
 const API_URL = "https://script.google.com/macros/s/AKfycbwNr5DWVDRrG2vJoCvQ04YFPIXS8UWSTJfuo_4iyX4DKpLnswHeYr0TVMQeT3honzN_/exec";
 
 /* ────────────────────────────────────────
-   DATA ENGINE (Live Connected with Cache Busting)
+   DATA ENGINE (Live Connected - Proper Standard Fetch)
 ──────────────────────────────────────── */
 async function fetchLiveLeaderboard() {
   const container = document.getElementById('lb-rows-wrap');
   
-  // Futuristic loader state showing dynamic sync
   container.innerHTML = `
     <div class="loading-state" style="text-align:center; padding: 30px; color: #7B2DFF; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1.3rem; letter-spacing: 2px; animation: pulse 1.5s infinite;">
       ⚡ FETCHING LIVE SCORE DATA...
@@ -29,15 +28,8 @@ async function fetchLiveLeaderboard() {
   `;
 
   try {
-    // FIXED: Dynamic timestamp generator added to explicitly bypass Cloudflare/Browser strict CORS cache locks
-    const cacheBuster = "?_cb=" + new Date().getTime();
-    const finalUrl = API_URL + cacheBuster;
-
-    const response = await fetch(finalUrl, {
-      method: 'GET',
-      mode: 'cors',
-      redirect: 'follow'
-    });
+    // FIX: Removed dynamic query params and extra headers to allow natural Google redirect flow
+    const response = await fetch(API_URL);
     
     if (!response.ok) throw new Error('Network response was not ok');
     
@@ -49,7 +41,6 @@ async function fetchLiveLeaderboard() {
         .filter(row => {
           let name = Array.isArray(row) ? row[0] : row.Team_Name;
           let score = Array.isArray(row) ? row[1] : row.Total_Score;
-          // Headers ya khali rows ko skip karne ke liye filter
           return name && !isNaN(score) && name.toString().toLowerCase() !== "team name";
         })
         .map(row => ({
@@ -78,7 +69,7 @@ async function fetchLiveLeaderboard() {
         ❌ CONNECTIVITY ERROR. RE-TRYING AUTOMATICALLY...
       </div>
     `;
-    // Fallback retry system har 8 seconds me automatically pool karega
+    // Fallback retry system
     setTimeout(fetchLiveLeaderboard, 8000);
   }
 }
@@ -98,10 +89,8 @@ function buildLeaderboard(entries) {
     } else {
       const existing = map.get(name);
       if (score > existing.score) {
-        // New personal best — update score AND timestamp
         map.set(name, { name, score, ts });
       } else if (score === existing.score && ts < existing.ts) {
-        // Same score achieved earlier — keep earliest timestamp for tie-break
         map.set(name, { name, score, ts });
       }
     }
@@ -139,7 +128,7 @@ function renderRows(data, globalRankMap) {
     row.setAttribute('role', 'listitem');
     row.style.animationDelay = `${idx * 0.055}s`;
 
-    // Rank cell with standard native emoticons or strict strings
+    // Rank cell
     const rankEl = document.createElement('div');
     rankEl.className = 'lb-rank';
     rankEl.setAttribute('aria-label', `Rank ${globalRank}`);
@@ -154,7 +143,7 @@ function renderRows(data, globalRankMap) {
     teamEl.textContent = team.name; 
     teamEl.title = team.name;
 
-    // Score cell formatted locally
+    // Score cell
     const scoreEl = document.createElement('div');
     scoreEl.className = 'lb-score';
     scoreEl.setAttribute('aria-label', `Score: ${team.score}`);
@@ -333,14 +322,12 @@ function initSlideshow() {
 ──────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
 
-  // Set copyright year
   const yearEl = document.getElementById('copy-year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  // Load live data stream from dynamic endpoints
+  // Load live data
   fetchLiveLeaderboard();
 
-  // Search input actions setup
   const searchInput = document.getElementById('team-search');
   if (searchInput) {
     searchInput.addEventListener('input', onSearchInput, { passive: true });
@@ -359,11 +346,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Init visual systems
   initSlideshow();
   initParticles();
 
-  // Smooth anchor scroll elements interface logic
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
       const target = document.querySelector(this.getAttribute('href'));
