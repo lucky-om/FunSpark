@@ -16,7 +16,7 @@ const BG_IMAGES = [
 const API_URL = "https://script.google.com/macros/s/AKfycbwNr5DWVDRrG2vJoCvQ04YFPIXS8UWSTJfuo_4iyX4DKpLnswHeYr0TVMQeT3honzN_/exec";
 
 /* ────────────────────────────────────────
-   DATA ENGINE (Live Connected)
+   DATA ENGINE (Live Connected with Redirect Fix)
 ──────────────────────────────────────── */
 async function fetchLiveLeaderboard() {
   const container = document.getElementById('lb-rows-wrap');
@@ -29,7 +29,13 @@ async function fetchLiveLeaderboard() {
   `;
 
   try {
-    const response = await fetch(API_URL);
+    // FIX: Explicitly configured CORS mechanics to bypass Google Macro CORS policy blockage
+    const response = await fetch(API_URL, {
+      method: 'GET',
+      mode: 'cors',
+      redirect: 'follow'
+    });
+    
     if (!response.ok) throw new Error('Network response was not ok');
     
     const data = await response.json();
@@ -328,7 +334,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const yearEl = document.getElementById('copy-year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  // Load live data from Google Sheet Web App Instead of Mock Entries
+  // Load live data from Google Sheet Web App
   fetchLiveLeaderboard();
 
   // Search listener
