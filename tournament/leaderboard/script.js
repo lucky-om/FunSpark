@@ -189,4 +189,179 @@ function updatePaginationUI() {
   wrap.innerHTML = html;
 }
 
-window.goToPage = function
+window.goToPage = function(page) {
+  const totalPages = Math.ceil(currentFiltered.length / itemsPerPage);
+  if (page < 1 || page > totalPages) return;
+  currentPage = page;
+  renderCurrentPage();
+};
+
+function renderCurrentPage() {
+  const start = (currentPage - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  const pageData = currentFiltered.slice(start, end);
+  renderRows(pageData, globalRankMap);
+  updatePaginationUI();
+}
+
+function filterAndRender(query) {
+  if (!query) {
+    currentFiltered = fullRankings;
+  } else {
+    const lower = query.toLowerCase();
+    currentFiltered = fullRankings.filter(t => t.name.toLowerCase().includes(lower));
+  }
+  currentPage = 1;
+  renderCurrentPage();
+}
+
+function onSearchInput() {
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(() => {
+    const raw = document.getElementById('team-search').value
+      .replace(/[<>"'&/\\]/g, '')
+      .trim()
+      .slice(0, 60);
+    filterAndRender(raw);
+  }, 120);
+}
+
+/* ────────────────────────────────────────
+   PARTICLE SYSTEM (GPU-accelerated)
+──────────────────────────────────────── */
+function initParticles() {
+  const canvas = document.getElementById('particles-canvas');
+  if (!canvas) return;
+  const ctx    = canvas.getContext('2d');
+
+  let W, H, particles;
+  const PARTICLE_COUNT = 55;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (reduced) return;
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  function makeParticle() {
+    return {
+      x:    Math.random() * W,
+      y:    Math.random() * H,
+      r:    Math.random() * 1.8 + 0.4,
+      vx:   (Math.random() - 0.5) * 0.25,
+      vy:   -(Math.random() * 0.3 + 0.1),
+      alpha: Math.random() * 0.4 + 0.1,
+      hue:  Math.random() < 0.6 ? 270 : (Math.random() < 0.5 ? 320 : 45),
+    };
+  }
+
+  function init() {
+    resize();
+    particles = Array.from({ length: PARTICLE_COUNT }, makeParticle);
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    for (const p of particles) {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `hsla(${p.hue}, 100%, 70%, ${p.alpha})`;
+      ctx.fill();
+
+      p.x += p.vx;
+      p.y += p.vy;
+
+      if (p.y < -5)  p.y = H + 5;
+      if (p.x < -5)  p.x = W + 5;
+      if (p.x > W+5) p.x = -5;
+    }
+
+    requestAnimationFrame(draw);
+  }
+
+  init();
+  draw();
+  window.addEventListener('resize', resize, { passive: true });
+}
+
+/* ────────────────────────────────────────
+   BACKGROUND SLIDESHOW
+──────────────────────────────────────── */
+function initSlideshow() {
+  const container = document.getElementById('bg-slideshow');
+  if (!container) return;
+
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  BG_IMAGES.forEach((src, i) => {
+    const slide = document.createElement('div');
+    slide.className = 'bg-slide' + (i === 0 ? ' active' : '');
+    slide.style.backgroundImage = `url('${src}')`;
+    container.appendChild(slide);
+  });
+
+  if (reduced) return;
+
+  const slides = container.querySelectorAll('.bg-slide');
+  if (slides.length < 2) return;
+
+  let current = 0;
+  const INTERVAL = 5500;
+
+  function next() {
+    slides[current].classList.remove('active');
+    current = (current + 1) % slides.length;
+    slides[current].classList.add('active');
+  }
+
+  setInterval(next, INTERVAL);
+}
+
+/* ────────────────────────────────────────
+   INIT MODULES
+──────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', () => {
+
+  const yearEl = document.getElementById('copy-year');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  // Trigger stream data call
+  fetchLiveLeaderboard();
+
+  // Input actions listeners
+  const searchInput = document.getElementById('team-search');
+  if (searchInput) {
+    searchInput.addEventListener('input', onSearchInput, { passive: true });
+
+    searchInput.addEventListener('paste', (e) => {
+      e.preventDefault();
+      const pasted = (e.clipboardData || window.clipboardData)
+        .getData('text')
+        .replace(/[<>"'&/\\]/g, '')
+        .slice(0, 60);
+      const start = searchInput.selectionStart;
+      const end   = searchInput.selectionEnd;
+      const current = searchInput.value;
+      searchInput.value = (current.slice(0, start) + pasted + current.slice(end)).slice(0, 60);
+      onSearchInput();
+    });
+  }
+
+  // Visual modules deployment
+  initSlideshow();
+  initParticles();
+
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+});
